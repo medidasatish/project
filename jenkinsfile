@@ -1,0 +1,50 @@
+pipeline {
+         agent any
+                 stages {
+                        stages('one') {
+                                 steps  {
+                                           echho 'hi satish '
+                                   }
+                          }
+                          stage('two') {
+                                  steps  {
+                                           input('Do you want to procees?')
+                                    }
+                           }
+                           stage('three') {
+                                  when {
+                                           not {
+                                                  branch "master"
+                                            }
+                                      }
+                                      steps {
+                                              echho "hello"
+                                       }
+                              }
+                              stage('four')  {
+                                              parallel {
+                                                 stage('Unit Test') {
+                                                                       steps{
+                                                                             echo " Running the unit test.."
+                                                                        }
+                                                 }
+                                                 stage('Integration test'){
+                                                                     agent{
+                                                                           docker {
+                                                                                    reuseNode false
+                                                                                    image 'ubuntu'
+                                                                             }
+                                                   }
+                                                   steps {
+                                                          echo 'Running the interation test....'
+                                                    }
+                                             }
+                                   }
+              }
+              }
+              }
+              }
+                                             
+                                                  
+                                               
+                                          
